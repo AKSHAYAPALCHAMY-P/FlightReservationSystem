@@ -98,7 +98,7 @@
 
         public static bool BookSeat(int nCustomerRow, int nSeatNumber)
         {
-            if (!nSeats[nCustomerRow, nSeatNumber])//check seat not booked
+            if (!nSeats[nCustomerRow, nSeatNumber])  //check seat not booked
             {
                 nSeats[nCustomerRow, nSeatNumber] = true;
                 return true;
