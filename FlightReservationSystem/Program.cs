@@ -25,7 +25,7 @@
                 showSeats(strName, strGender, Age);
 
                 Console.WriteLine("want to book more seats? (yes/no)");
-                if (Console.ReadLine() == "no")
+                if (Console.ReadLine()  == "no")
                 {
                     break;
                 }
@@ -39,7 +39,7 @@
             }
 
             Console.WriteLine("Available Seats:");
-            Console.WriteLine(" W   A   M   A   W");
+            Console.WriteLine(" W   M   A   A   W");
 
             for (int i = 0; i < nRows; i++)
             {
@@ -67,8 +67,17 @@
             }
 
 
-            if (BookSeat(nCustomerRow, nCustomerSeatNumber))
+            if (IsBookSeat(nCustomerRow, nCustomerSeatNumber))
             {
+                if(Age < 12)
+                {
+                    Console.WriteLine("50% Fare");
+                }
+
+                else if(Age<2)
+                {
+                    Console.WriteLine("No Fare!!!");
+                }
                 Console.WriteLine($"Seat Booked SuccessFully for {strName} in row {nCustomerRow},seat {nCustomerSeatNumber}");
             }
 
@@ -82,7 +91,7 @@
                 {
                     if (!nSeats[nCustomerRow, i])
                     {
-                        BookSeat(nCustomerRow, i);
+                        IsBookSeat(nCustomerRow, i);
                         Console.WriteLine($"Seat Booked SuccessFully for {strName} in row {nCustomerRow},seat {i}");
                         bFoundNextAvailable = true;
                         break;
@@ -96,7 +105,7 @@
 
         }
 
-        public static bool BookSeat(int nCustomerRow, int nSeatNumber)
+        public static bool IsBookSeat(int nCustomerRow, int nSeatNumber)
         {
             if (!nSeats[nCustomerRow, nSeatNumber])  //check seat not booked
             {
