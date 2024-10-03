@@ -6,31 +6,31 @@
         const int nRows = 10;
         const int nSeatsInRows = 5;
 
-        private static bool[,] seats= new bool[nRows, nSeatsInRows];
+        private static bool[,] nSeats= new bool[nRows, nSeatsInRows];
         public static void Main(string[] args)
         {
-            Console.WriteLine("Enter the name of the passenger:");
-            string strName = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Enter the name of the passenger:");
+                string strName = Console.ReadLine();
 
-            Console.WriteLine("Enter the gender of the passenger:");
-            string strGender = Console.ReadLine();
+                Console.WriteLine("Enter the gender of the passenger:");
+                string strGender = Console.ReadLine();
 
-            Console.WriteLine("Enter the age of the passenger");
-            bool nAge = int.TryParse(Console.ReadLine(), out int Age);
+                Console.WriteLine("Enter the age of the passenger");
+                bool nAge = int.TryParse(Console.ReadLine(), out int Age);
 
-            showSeats(strName, strGender, Age);
+                showSeats(strName, strGender, Age);
+
+                Console.WriteLine("want to book more seats? (yes/no)");
+                if (Console.ReadLine() == "no")
+                {
+                    break;
+                }
+            }
         }
         public static void showSeats(string strName, string strGender, int Age)
         {
-            //int[] nArray = new int[nTotalSeats];
-            //int[] nRowsInFlight = new int[nRows];
-            //int[] nSeatsinEachRow = new int[nTotalSeats];
-            //int[,] twoDimensionalArray = new int[3, 4];
-            //string[,] nSeats = new string[nRows, nSeatsInRows];
-            //string strText = "AA";
-            //string nAvailableSeats = " ";
-            //int nSeatNumber = 0;
-
             Console.WriteLine("Available Seats:");
 
             for (int i = 0; i < nRows; i++)
@@ -39,7 +39,7 @@
 
                 for (int j = 0; j < nSeatsInRows; j++)
                 {
-                    Console.Write(seats[i,j] ? "[BB]" : "[AA]");
+                    Console.Write(nSeats[i,j] ? "[BB]" : "[AA]");//update the entry details automatically
                 }
                 Console.WriteLine();
             }
@@ -58,21 +58,47 @@
                 return;
             }
 
+            
             if(BookSeat(nCustomerRow, nCustomerSeatNumber))
             {
-                Console.WriteLine($"Seat Booked SuccessFully for{strName} in row {nCustomerRow},seat{nCustomerSeatNumber}");
+                Console.WriteLine($"Seat Booked SuccessFully for {strName} in row {nCustomerRow},seat {nCustomerSeatNumber}");
             }
 
             else
             {
                 Console.WriteLine("Sorry,the Selected seat is already Booking");
+
+                bool bFoundNextAvailable = false;//for row Available
+
+                for (int i = 0; i < nSeatsInRows; i++) 
+                {
+                    if (!nSeats[nCustomerRow, i])
+                    {
+                        BookSeat(nCustomerRow, i);
+                        Console.WriteLine($"Seat Booked SuccessFully for {strName} in row {nCustomerRow},seat {i}");
+                        bFoundNextAvailable = true;
+                        break;
+                    }
+                }
+                if (!bFoundNextAvailable)
+                {
+                    Console.WriteLine("No seats in this row..select next row");
+                }
             }
 
         }
 
         public static bool BookSeat(int nCustomerRow, int nSeatNumber)
         {
-            if()
+            if (!nSeats[nCustomerRow, nSeatNumber])//check seat not booked
+            {
+                nSeats[nCustomerRow, nSeatNumber] = true;
+                return true;
+            }
+
+            nSeatNumber = -1;
+            nCustomerRow = -1;
+            return false;
         }
     }
 }
