@@ -6,7 +6,9 @@
         const int nRows = 10;
         const int nSeatsInRows = 5;
 
-        private static bool[,] nSeats= new bool[nRows, nSeatsInRows];
+        public static bool[,] nSeats = new bool[nRows, nSeatsInRows];
+        public static string[] nSeatLetters = { "A", "B", "C", "D", "E" };
+
         public static void Main(string[] args)
         {
             while (true)
@@ -31,15 +33,21 @@
         }
         public static void showSeats(string strName, string strGender, int Age)
         {
+            if (IsFlightFull())
+            {
+                Console.WriteLine("Flight Full!!!!Thanks for Visiting!!!!");
+            }
+
             Console.WriteLine("Available Seats:");
+            Console.WriteLine(" W   A   M   A   W");
 
             for (int i = 0; i < nRows; i++)
             {
-                Console.WriteLine($"Row{i}:");
+                Console.WriteLine($"Row{i + 1}:");
 
                 for (int j = 0; j < nSeatsInRows; j++)
                 {
-                    Console.Write(nSeats[i,j] ? "[BB]" : "[AA]");//update the entry details automatically
+                    Console.Write(nSeats[i, j] ? "[XX]" : "[AA]");//update the entry details automatically
                 }
                 Console.WriteLine();
             }
@@ -52,14 +60,14 @@
             Console.WriteLine("Enter the Seatnumber You want(0-4)");
             int nCustomerSeatNumber = int.Parse(Console.ReadLine());
 
-            if(nCustomerRow < 0 || nCustomerRow >= nRows || nCustomerSeatNumber < 0 || nCustomerSeatNumber >= nSeatsInRows)
+            if (nCustomerRow < 0 || nCustomerRow >= nRows || nCustomerSeatNumber < 0 || nCustomerSeatNumber >= nSeatsInRows)
             {
                 Console.WriteLine("Invalid Row or SeatNUmber");
                 return;
             }
 
-            
-            if(BookSeat(nCustomerRow, nCustomerSeatNumber))
+
+            if (BookSeat(nCustomerRow, nCustomerSeatNumber))
             {
                 Console.WriteLine($"Seat Booked SuccessFully for {strName} in row {nCustomerRow},seat {nCustomerSeatNumber}");
             }
@@ -70,7 +78,7 @@
 
                 bool bFoundNextAvailable = false;//for row Available
 
-                for (int i = 0; i < nSeatsInRows; i++) 
+                for (int i = 0; i < nSeatsInRows; i++)
                 {
                     if (!nSeats[nCustomerRow, i])
                     {
@@ -95,10 +103,22 @@
                 nSeats[nCustomerRow, nSeatNumber] = true;
                 return true;
             }
-
-            nSeatNumber = -1;
-            nCustomerRow = -1;
             return false;
+        }
+
+        public static bool IsFlightFull()
+        {
+            for (int i = 0; i < nRows; i++)
+            {
+                for (int j = 0; j < nSeatsInRows; j++)
+                {
+                    if (!nSeats[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
