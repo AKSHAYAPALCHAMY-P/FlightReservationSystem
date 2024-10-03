@@ -1,4 +1,4 @@
-﻿namespace FlightSeatReservation
+namespace FlightSeatReservation
 {
     public class BookingSeats
     {
